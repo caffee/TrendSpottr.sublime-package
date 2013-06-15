@@ -1,0 +1,15 @@
+{
+    // API access point
+    "url" : "http://api.trendspottr.com/v1.5/search.php",
+    // This parameter passes to the API your personal API key
+    "apikey" : "",
+    // This parameter must be a valid ISO 2-letter language code
+    "lang" : "en",
+    // Allowed values are twitter, facebook and all.
+    "source" : "all",
+    // sets the maximum number of results to return for each category 
+    // (phrases, links, hashtags, and sources). Range 0-40
+    "limit" : 5,
+    // Allowed values are: true or false
+    "expand" : "true"
+}

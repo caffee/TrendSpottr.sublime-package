@@ -1,0 +1,12 @@
+#!/bin/bash
+
+zip -r TrendSpottr.sublime-package\
+       trendspottr_search_client.py\
+       TrendspottrPreferences.sublime-settings\
+       Default.sublime-commands\
+       Main.sublime-menu\
+       Default\ \(OSX\).sublime-keymap\
+       Default\ \(Linux\).sublime-keymap\
+       Default\ \(Windows\).sublime-keymap\
+       LICENSE\
+       README.rst

@@ -1,0 +1,18 @@
+[
+    {
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "Plugins Settings",
+                "children":
+                [
+                    { "command": "open_file", 
+                      "args": {"file": "${packages}/TrendSpottr/TrendspottrPreferences.sublime-settings"}, 
+                      "caption": "TrendSpottr" 
+                    }
+                ]
+            }
+        ]
+    }
+]
