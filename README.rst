@@ -15,6 +15,18 @@ About
 | and retrieve the results in JSON
 
 
+Settings
+--------
+| TrendSpottr Settings
+| Menu: ``Preferences`` | ``Plugins Settings`` | ``TrendSpottr``
+
+
+Usage
+-----
+| To open TrendSpottr search query input panel
+| Keymap: ``ctrl+alt+shift+s``
+
+
 License
 -------
 | licensed under the MIT license.
