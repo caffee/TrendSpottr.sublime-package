@@ -4,7 +4,7 @@ import urllib, urllib2, json, threading
 class TrendspottrSearchPanelCommand(sublime_plugin.WindowCommand):
 
     def run(self):
-        self.window.show_input_panel("Search Query:", "Web Technology", self.on_done, None, None)
+        self.window.show_input_panel("TrendSpottr Search:", "Web Technology", self.on_done, None, None)
 
     def on_done(self, keyword):
         try:
