@@ -4,11 +4,12 @@
         "children":
         [
             {
-                "caption": "Plugins Settings",
+                "caption": "Package Settings",
+                "id": "package-settings",
                 "children":
                 [
                     { "command": "open_file", 
-                      "args": {"file": "${packages}/TrendSpottr/TrendspottrPreferences.sublime-settings"}, 
+                      "args": {"file": "${packages}/TrendSpottr/TrendSpottrPreferences.sublime-settings"}, 
                       "caption": "TrendSpottr" 
                     }
                 ]
