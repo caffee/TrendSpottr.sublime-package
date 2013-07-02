@@ -2,7 +2,7 @@
 
 zip -r TrendSpottr.sublime-package\
        trendspottr_search_client.py\
-       TrendspottrPreferences.sublime-settings\
+       TrendSpottrPreferences.sublime-settings\
        Default.sublime-commands\
        Main.sublime-menu\
        Default\ \(OSX\).sublime-keymap\
