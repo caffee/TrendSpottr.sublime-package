@@ -26,18 +26,19 @@ class TrendspottrSearchCommand(sublime_plugin.TextCommand):
         self.view.set_syntax_file('Packages/JavaScript/JSON.tmLanguage')
         # clear region
         region = sublime.Region(0, self.view.size())
-
+        # build url query
         url = self.url_builder(query)
-        # start thread
-        thread = threading.Thread(target=self.http_request_call, args=(edit, region, url))
-        thread.start()
+
+        # trendspottr service call
+        service = TrendSpottrServiceThread(self, edit, region, url)
+        service.start()
 
         # show status message
         sublime.status_message("Connect to TrendSpottr service.")
 
     def url_builder(self, keyword):
         # load settings
-        prop = sublime.load_settings("TrendspottrPreferences.sublime-settings")
+        prop = sublime.load_settings("TrendSpottrPreferences.sublime-settings")
 
         params = [('key', prop.get('apikey', '')),
                   ('q', keyword), 
@@ -50,21 +51,39 @@ class TrendspottrSearchCommand(sublime_plugin.TextCommand):
 
         return prop.get('url', '') + '?' + query_string
 
-    def http_request_call(self, edit, region, url):
-        response = None 
+class TrendSpottrServiceThread(threading.Thread):
+
+    def __init__(self, cmd, edit, region, url):
+        threading.Thread.__init__(self)
+        self.cmd = cmd
+        self.edit = edit
+        self.region = region
+        self.url = url
+
+    def run(self):
+        resp = None 
         try:
             # http response
-            response = urllib2.urlopen(url)
+            resp = urllib2.urlopen(self.url)
             # parse response to JSON object
-            json_obj = json.loads(response.read())
+            json_obj = json.loads(resp.read())
             # pretty formatted JSON string
             pretty_json = json.dumps(json_obj, indent=4, separators=(',', ':'))
             # update sublime view
-            self.view.replace(edit, region, pretty_json);
+            self.response = pretty_json
+            # fixed: RuntimeError: Must call on main thread
+            sublime.set_timeout(self.callback, 1)
         except Exception as ex:
-            self.view.replace(edit, region, str(ex));
+            # update sublime view
+            self.response = str(ex)
+            # fixed: RuntimeError: Must call on main thread
+            sublime.set_timeout(self.callback, 1)
             pass
         finally:
-            if response is not None:
-                response.close()
+            if resp is not None:
+                resp.close()
             pass
+
+    # fixed: RuntimeError: Must call on main thread
+    def callback(self):
+        self.cmd.view.replace(self.edit, self.region, self.response)
