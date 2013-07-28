@@ -9,7 +9,7 @@
     "source" : "all",
     // sets the maximum number of results to return for each category 
     // (phrases, links, hashtags, and sources). Range 0-40
-    "limit" : 5,
+    "limit" : 10,
     // Allowed values are: true or false
     "expand" : "true"
 }
