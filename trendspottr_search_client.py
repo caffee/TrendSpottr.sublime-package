@@ -1,5 +1,32 @@
-import sublime, sublime_plugin
-import urllib, urllib2, json, threading
+# -*- coding: utf8 -*-
+#
+# The MIT License (MIT)
+#
+# Copyright (c) 2013 Lee <lee.github@gmail.com>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy of
+# this software and associated documentation files (the "Software"), to deal in
+# the Software without restriction, including without limitation the rights to
+# use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+# the Software, and to permit persons to whom the Software is furnished to do so,
+# subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+# FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+# IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+# CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+import sublime
+import sublime_plugin
+import urllib
+import urllib2
+import json
+import threading
 
 class TrendspottrSearchPanelCommand(sublime_plugin.WindowCommand):
 
@@ -20,24 +47,24 @@ class TrendspottrSearchPanelCommand(sublime_plugin.WindowCommand):
 class TrendspottrSearchCommand(sublime_plugin.TextCommand):
 
     def run(self, edit, query):
-        # set view name
+        # Set view name
         self.view.set_name("TrendSpottr - " + query)
-        # set syntax 
+        # Set syntax 
         self.view.set_syntax_file('Packages/JavaScript/JSON.tmLanguage')
-        # clear region
+        # Clear region
         region = sublime.Region(0, self.view.size())
-        # build url query
+        # Build url query
         url = self.url_builder(query)
 
-        # trendspottr service call
+        # Trendspottr service call
         service = TrendSpottrServiceThread(self, edit, region, url)
         service.start()
 
-        # show status message
+        # Show status message
         sublime.status_message("Connect to TrendSpottr service.")
 
     def url_builder(self, keyword):
-        # load settings
+        # Load settings
         prop = sublime.load_settings("TrendSpottrPreferences.sublime-settings")
 
         params = [('key', prop.get('apikey', '')),
@@ -63,20 +90,20 @@ class TrendSpottrServiceThread(threading.Thread):
     def run(self):
         resp = None 
         try:
-            # http response
+            # Http response
             resp = urllib2.urlopen(self.url)
-            # parse response to JSON object
+            # Parse response to JSON object
             json_obj = json.loads(resp.read())
-            # pretty formatted JSON string
+            # Pretty formatted JSON string
             pretty_json = json.dumps(json_obj, indent=4, separators=(',', ':'))
-            # update sublime view
+            # Update sublime view text buffer
             self.response = pretty_json
-            # fixed: RuntimeError: Must call on main thread
+            # Fixed: RuntimeError: Must call on main thread
             sublime.set_timeout(self.callback, 1)
         except Exception as ex:
-            # update sublime view
+            # Update sublime view text buffer
             self.response = str(ex)
-            # fixed: RuntimeError: Must call on main thread
+            # Fixed: RuntimeError: Must call on main thread
             sublime.set_timeout(self.callback, 1)
             pass
         finally:
@@ -84,6 +111,6 @@ class TrendSpottrServiceThread(threading.Thread):
                 resp.close()
             pass
 
-    # fixed: RuntimeError: Must call on main thread
+    # Fixed: RuntimeError: Must call on main thread
     def callback(self):
         self.cmd.view.replace(self.edit, self.region, self.response)
