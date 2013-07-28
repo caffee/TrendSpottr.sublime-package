@@ -1,6 +1,8 @@
 [
     {
         "id": "preferences",
+        "mnemonic": "n",
+        "id": "preferences",
         "children":
         [
             {
