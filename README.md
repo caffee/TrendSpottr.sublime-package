@@ -21,8 +21,10 @@ Main menu: `Preferences` | `Package Settings` | `TrendSpottr`
 
 Usage
 -----
-* __Keymap:__ (OSX, Windows, Linux)  
-  * Open search query input panel : `alt+shift+t`  
+* __Keymap:__ (Windows, Linux)  
+  * Open search query input panel : <kbd>alt+shift+t</kbd>  
+* __Keymap:__ (OSX)  
+  * Open search query input panel : <kbd>⌥⇧t</kbd>  
 
 LICENSE
 -------
